@@ -6,6 +6,7 @@
       <root url="jar://$PROJECT_DIR$/lib/kotlin-test.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jre7.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-jre8.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/mysql-connector-java-5.1.45/mysql-connector-java-5.1.45/mysql-connector-java-5.1.45-bin.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

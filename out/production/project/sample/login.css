@@ -1,4 +1,14 @@
 #loginButton{
--fx-background-color : blue;
--fx-text-fill:white;
+-fx-background-color : #337ab7;
+-fx-text-fill:#fff;
+-fx-border-color:#2e6da4;
+-fx-border-radius:5px;
+}
+
+#body{
+-fx-background-color: #fff;
+}
+#newjunk{
+-fx-background-color: grey;
+-fx-text-fill : #fff;
 }

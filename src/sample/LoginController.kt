@@ -1,25 +1,51 @@
 package sample
 
-
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.event.ActionEvent
+import javafx.event.EventHandler
 import javafx.fxml.FXML
-import javafx.scene.control.Label
-import javafx.scene.control.PasswordField
-import javafx.scene.control.TextField
+import javafx.fxml.FXMLLoader
+import javafx.fxml.Initializable
+import javafx.scene.Node
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.scene.control.*
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.stage.Stage
+import java.io.IOException
+import java.net.URL
+import java.util.*
 
-class LoginController {
+
+
+
+class LoginController  {
+    @FXML private lateinit var username: TextField
+
+    @FXML private lateinit var password: PasswordField
+
+    @FXML private lateinit var error: Label
+
     @FXML
-    lateinit var username : TextField
-
-    @FXML
-    lateinit var password : PasswordField
-
-    @FXML
-    lateinit var error : Label
-
-     fun login(){
-         validation()
-     }
-    private fun validation(){
-        if (username.text == "bradley" && password.text == "Mojanity@1" ) println("You can Enter Please") else error.text = "Username or password incorrect"
+    @Throws(IOException::class) private fun handleButtonAction(event: ActionEvent){
+        validation(event)
     }
+    @FXML
+    @Throws(IOException::class) private fun validation(event: ActionEvent) = if (username.text == "bradley" && password.text == "Mojanity@1" ) {
+
+        val home_page = FXMLLoader.load<Parent>(javaClass.getResource("MainView.fxml"))
+
+        val c : InventoryController? = null
+        val home_page_scene = Scene(home_page, 766.0, 400.0)
+        val app_stage = (event.source as Node).scene.window as Stage
+        app_stage.scene = home_page_scene
+        app_stage.title = "Inventory"
+        app_stage.onShown = EventHandler { c?.fetchData() }
+        app_stage.show()
+
+    }
+    else  error.text = "Username or password incorrect"
+
+
 }

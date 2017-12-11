@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.InventoryController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Add" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Inventory">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <TableView fx:id="tvJunk" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+            <TableColumn fx:id="sn" prefWidth="75.0" resizable="false" text="S/N" />
+          <TableColumn fx:id="name" prefWidth="75.0" resizable="false" text="Name" />
+          <TableColumn fx:id="amount" prefWidth="90.0" text="Amount(Kg)" />
+            <TableColumn fx:id="price" prefWidth="90.0" text="Price" />
+            <TableColumn fx:id="category" prefWidth="90.0" text="Category" />
+            <TableColumn fx:id="customer" prefWidth="90.0" text="Customer" />
+            <TableColumn fx:id="date" prefWidth="90.0" text="Date" />
+        </columns>
+      </TableView>
+   </center>
+   <right>
+      <VBox prefHeight="375.0" prefWidth="165.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label id="newjunk" alignment="CENTER" prefHeight="25.0" prefWidth="165.0" stylesheets="@login.css" text="New Junk" textAlignment="CENTER" />
+            <Label prefHeight="17.0" prefWidth="79.0" text="Junk name">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Aharoni Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="35.0" prefHeight="17.0" prefWidth="104.0" text="Junk  Amount(kg)">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Aharoni Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField layoutX="10.0" layoutY="52.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="77.0" prefHeight="17.0" prefWidth="104.0" text="Junk  Price">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Aharoni Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField layoutX="10.0" layoutY="94.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextField>
+            <Label layoutX="10.0" layoutY="119.0" prefHeight="17.0" prefWidth="104.0" text="Junk Category">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Aharoni Bold" size="12.0" />
+               </font>
+            </Label>
+            <ChoiceBox prefHeight="25.0" prefWidth="167.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </ChoiceBox>
+            <Label layoutX="10.0" layoutY="161.0" prefHeight="17.0" prefWidth="104.0" text="Customer Name">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Aharoni Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextField>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#connectDB" prefHeight="25.0" prefWidth="48.0" text="save">
+               <VBox.margin>
+                  <Insets left="55.0" top="4.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
