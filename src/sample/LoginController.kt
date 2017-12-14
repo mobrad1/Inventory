@@ -36,7 +36,7 @@ class LoginController  {
 
         val home_page = FXMLLoader.load<Parent>(javaClass.getResource("MainView.fxml"))
 
-        val c : InventoryController? = null
+        val c : JunkQueries? = null
         val home_page_scene = Scene(home_page, 766.0, 400.0)
         val app_stage = (event.source as Node).scene.window as Stage
         app_stage.scene = home_page_scene

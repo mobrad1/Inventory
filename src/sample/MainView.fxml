@@ -56,7 +56,7 @@
                   <Font name="Aharoni Bold" size="12.0" />
                </font>
             </Label>
-            <TextField>
+            <TextField fx:id="junkNameField">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -69,7 +69,7 @@
                   <Font name="Aharoni Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="10.0" layoutY="52.0">
+            <TextField fx:id="junkAmountField" layoutX="10.0" layoutY="52.0">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -82,7 +82,7 @@
                   <Font name="Aharoni Bold" size="12.0" />
                </font>
             </Label>
-            <TextField layoutX="10.0" layoutY="94.0">
+            <TextField fx:id="junkPriceField" layoutX="10.0" layoutY="94.0">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -95,7 +95,7 @@
                   <Font name="Aharoni Bold" size="12.0" />
                </font>
             </Label>
-            <ChoiceBox prefHeight="25.0" prefWidth="167.0">
+            <ChoiceBox fx:id="junkCategoryField" prefHeight="25.0" prefWidth="167.0">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -108,12 +108,12 @@
                   <Font name="Aharoni Bold" size="12.0" />
                </font>
             </Label>
-            <TextField>
+            <TextField fx:id="junkCustomerField">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </TextField>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#connectDB" prefHeight="25.0" prefWidth="48.0" text="save">
+            <Button fx:id="junkAddButton" alignment="CENTER" mnemonicParsing="false" onAction="#addJunk" prefHeight="25.0" prefWidth="48.0" text="save">
                <VBox.margin>
                   <Insets left="55.0" top="4.0" />
                </VBox.margin>
