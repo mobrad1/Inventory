@@ -1,26 +1,16 @@
 package sample
-import javafx.application.Application
-import javafx.beans.value.ChangeListener
-import javafx.beans.value.ObservableValue
-import javafx.collections.FXCollections
+
 import javafx.collections.FXCollections.observableArrayList
 import javafx.collections.ObservableList
-import javafx.collections.SetChangeListener
 import javafx.concurrent.Task
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
 import javafx.fxml.Initializable
-import javafx.scene.Parent
-import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
-import javafx.stage.Stage
-import java.io.IOException
 import java.net.URL
 import java.sql.*
-import java.text.DateFormat
 import java.util.*
-import java.util.Date
+
 
 
 class InventoryController : Initializable{
@@ -50,6 +40,12 @@ class InventoryController : Initializable{
     private lateinit var junkPriceField : TextField
     @FXML
     private lateinit var junkCategoryField : ChoiceBox<String>
+    @FXML
+    private lateinit var junkCustomerField : TextField
+    @FXML
+    private lateinit var junkAddButton : Button
+    @FXML
+    private lateinit var textValidate : Label
 
 
     
@@ -66,10 +62,10 @@ class InventoryController : Initializable{
         category.cellValueFactory = PropertyValueFactory<Junk,String>("category")
         customer.cellValueFactory = PropertyValueFactory<Junk,String>("customer")
         date.cellValueFactory = PropertyValueFactory<Junk,String>("date")
-
         refresh()
 
     }
+    @FXML
     private fun refresh(){
         val task = object : Task<ObservableList<Junk>>(){
             override fun call(): ObservableList<Junk> = fetchData()
@@ -96,7 +92,7 @@ class InventoryController : Initializable{
         try {
             while (resultSet.next()) {
 
-                inventoryList.add(Junk(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getInt("amount"), resultSet.getInt("price"), resultSet.getInt("category_id"), resultSet.getString("customer"), resultSet.getString("date")))
+                inventoryList.add(Junk(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getInt("amount"), resultSet.getInt("price"), resultSet.getString("category_id"), resultSet.getString("customer"), resultSet.getString("date")))
 
             }
         }catch (sqlException : SQLException){
@@ -106,10 +102,10 @@ class InventoryController : Initializable{
     }
 
     @FXML
-    fun connectDB() : Connection {
+    private fun connectDB() : Connection {
         val user = "root"
         var conn : Connection? = null
-        val connectionProps : Properties = Properties()
+        val connectionProps = Properties()
         try{
         connectionProps.put("user",user)
          Class.forName("com.mysql.jdbc.Driver")
@@ -121,20 +117,54 @@ class InventoryController : Initializable{
         }
         return conn!!
     }
+
+    // Responsible for adding a new Junk
+    @FXML
     fun addJunk(){
         connectDB()
         val statement = connectDB().createStatement()
-        val resultSet = statement.executeQuery("INSERT INTO `junks`" + "(name,amount,price,category_id,customer,date)" + "VALUES()")
+
+        try {
+            if(junkNameField.text!=null && junkAmountField.text != null && junkPriceField.text != null && junkCategoryField.value != null && junkCustomerField.text != null) {
+                val resultSet = statement.executeUpdate("INSERT INTO `junks`" + "(`name`,`amount`,`price`,`category_id`,`customer`,`date`)" + " VALUES('${junkNameField.text}','${junkAmountField.text}','${junkPriceField.text}','${junkCategoryField.value}','${junkCustomerField.text}','december')")
+                refresh()
+                clearFields()
+                textValidate.style = "-fx-text-fill : green"
+                textValidate.text = "Junk added successfully"
+            }else{
+                textValidate.style = "-fx-text-fill : red"
+                textValidate.text = "Please fill all details"
+            }
+        }catch (sqlException : SQLException){
+            sqlException.printStackTrace()
+        }
     }
 
     private fun makeCategory() :ChoiceBox<String>{
-//        junkCategoryField = ChoiceBox()
-//        junkCategoryField.items = observableArrayList(Category(1,"bread",1000))
-////        junkCategoryField.selectionModel.selectedIndexProperty().addListener(
-////                ChangeListener((
-////                        fun(ov :ObservableValue<Number>, value :Number, new_value : Number) {}) as (observable: ObservableValue<out Number>, oldValue: Number, newValue: Number) -> Unit))
-//        return junkCategoryField
-        junkCategoryField.items.add(0,"bread")
+        val statement = connectDB().createStatement()
+        val result = statement.executeQuery("SELECT * FROM `category`")
+        var number = result.metaData
+        var numberCount = number.columnCount
+        while (result.next()) {
+                junkCategoryField.items.add(result.getInt("id") - 1, result.getString("name"))
+        }
         return junkCategoryField
    }
+
+    private fun clearFields(){
+        junkNameField.clear()
+        junkAmountField.clear()
+        junkPriceField.clear()
+        junkCustomerField.clear()
+        junkCategoryField.value = null
+
+    }
+
+    private fun validation(): Boolean {
+        if (junkNameField.text!=null && junkAmountField.text != null && junkPriceField.text != null && junkCategoryField.value != null && junkCustomerField.text != null){
+            textValidate.text = "Please fill all details"
+        }
+        return true
+    }
+
 }

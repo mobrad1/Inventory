@@ -35,7 +35,7 @@ class JunkQueries {
 
         try {
             resultSet = selectAllJunk?.executeQuery()
-            results = observableArrayList(Junk(1,"bronze",100,1000,1,"Bradley","November"))
+            results = observableArrayList(Junk(1,"bronze",100,1000,"Bread","Bradley","November"))
             val metadata : ResultSetMetaData = resultSet!!.metaData
             val number = metadata.columnCount
 

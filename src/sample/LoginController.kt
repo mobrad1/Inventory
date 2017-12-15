@@ -1,21 +1,15 @@
 package sample
 
-import javafx.collections.FXCollections
-import javafx.collections.ObservableList
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
-import javafx.fxml.Initializable
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
-import javafx.scene.control.cell.PropertyValueFactory
 import javafx.stage.Stage
 import java.io.IOException
-import java.net.URL
-import java.util.*
 
 
 
@@ -37,7 +31,7 @@ class LoginController  {
         val home_page = FXMLLoader.load<Parent>(javaClass.getResource("MainView.fxml"))
 
         val c : JunkQueries? = null
-        val home_page_scene = Scene(home_page, 766.0, 400.0)
+        val home_page_scene = Scene(home_page, 766.0, 423.0)
         val app_stage = (event.source as Node).scene.window as Stage
         app_stage.scene = home_page_scene
         app_stage.title = "Inventory"
