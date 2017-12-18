@@ -1,4 +1,8 @@
-package sample
+/** @author
+ * Bradley Yarrow
+ *
+ * **/
+package Inventory.Controller
 
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
@@ -9,6 +13,7 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.stage.Stage
+import Inventory.Model.JunkQueries
 import java.io.IOException
 
 
@@ -28,7 +33,7 @@ class LoginController  {
     @FXML
     @Throws(IOException::class) private fun validation(event: ActionEvent) = if (username.text == "bradley" && password.text == "Mojanity@1" ) {
 
-        val home_page = FXMLLoader.load<Parent>(javaClass.getResource("MainView.fxml"))
+        val home_page = FXMLLoader.load<Parent>(javaClass.getResource("../View/MainView.fxml"))
 
         val c : JunkQueries? = null
         val home_page_scene = Scene(home_page, 766.0, 423.0)

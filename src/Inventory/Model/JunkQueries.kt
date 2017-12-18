@@ -1,9 +1,8 @@
-package sample
+package Inventory.Model
 
-import javafx.collections.FXCollections
 import javafx.collections.FXCollections.observableArrayList
-import javafx.collections.ObservableArray
 import javafx.collections.ObservableList
+import Inventory.Model.Junk
 import java.sql.*
 
 class JunkQueries {
@@ -35,7 +34,7 @@ class JunkQueries {
 
         try {
             resultSet = selectAllJunk?.executeQuery()
-            results = observableArrayList(Junk(1,"bronze",100,1000,"Bread","Bradley","November"))
+            results = observableArrayList(Junk(1, "bronze", 100, 1000, "Bread", "Bradley", "November"))
             val metadata : ResultSetMetaData = resultSet!!.metaData
             val number = metadata.columnCount
 

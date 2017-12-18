@@ -1,5 +1,10 @@
-package sample
+/** @author
+ * Bradley Yarrow
+ *
+ * **/
+package Inventory.Controller
 
+import javafx.beans.InvalidationListener
 import javafx.collections.FXCollections.observableArrayList
 import javafx.collections.ObservableList
 import javafx.concurrent.Task
@@ -7,6 +12,7 @@ import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
+import Inventory.Model.Junk
 import java.net.URL
 import java.sql.*
 import java.util.*
@@ -47,13 +53,11 @@ class InventoryController : Initializable{
     @FXML
     private lateinit var textValidate : Label
 
-
-    
+    @FXML lateinit var junkLabel : Label
+    var junkId : Int = 0
 
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-
-
         makeCategory()
         sn.cellValueFactory = PropertyValueFactory<Junk, Int>("sn")
         name.cellValueFactory = PropertyValueFactory<Junk,String>("name")
@@ -76,14 +80,15 @@ class InventoryController : Initializable{
             }
         }
         Thread(task).start()
+        defaultState()
     }
+    //Function to fetch data
     fun fetchData(): ObservableList<Junk> {
 
         var inventoryList :ObservableList<Junk> = observableArrayList()
-
-        //Connection to database
-        connectDB()
-        //end of connection to database
+        inventoryList.addListener(InvalidationListener{
+          println("valid")
+        })
 
         //query the database
         val statement = connectDB().createStatement()
@@ -91,9 +96,7 @@ class InventoryController : Initializable{
 
         try {
             while (resultSet.next()) {
-
                 inventoryList.add(Junk(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getInt("amount"), resultSet.getInt("price"), resultSet.getString("category_id"), resultSet.getString("customer"), resultSet.getString("date")))
-
             }
         }catch (sqlException : SQLException){
             sqlException.printStackTrace()
@@ -110,8 +113,7 @@ class InventoryController : Initializable{
         connectionProps.put("user",user)
          Class.forName("com.mysql.jdbc.Driver")
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/junk",connectionProps)
-
-        //query the database
+            //query the database
         }catch(sqlException :SQLException){
             sqlException.printStackTrace()
         }
@@ -121,7 +123,6 @@ class InventoryController : Initializable{
     // Responsible for adding a new Junk
     @FXML
     fun addJunk(){
-        connectDB()
         val statement = connectDB().createStatement()
 
         try {
@@ -139,18 +140,17 @@ class InventoryController : Initializable{
             sqlException.printStackTrace()
         }
     }
-
+    //Responsible for making the category from the database
     private fun makeCategory() :ChoiceBox<String>{
         val statement = connectDB().createStatement()
         val result = statement.executeQuery("SELECT * FROM `category`")
-        var number = result.metaData
-        var numberCount = number.columnCount
         while (result.next()) {
                 junkCategoryField.items.add(result.getInt("id") - 1, result.getString("name"))
         }
         return junkCategoryField
    }
 
+    //responsible for clearing all fields
     private fun clearFields(){
         junkNameField.clear()
         junkAmountField.clear()
@@ -160,11 +160,67 @@ class InventoryController : Initializable{
 
     }
 
-    private fun validation(): Boolean {
-        if (junkNameField.text!=null && junkAmountField.text != null && junkPriceField.text != null && junkCategoryField.value != null && junkCustomerField.text != null){
-            textValidate.text = "Please fill all details"
+    //delete a junk
+    @FXML
+    private fun deleteJunk(){
+        var statement = connectDB().createStatement()
+        val allJunk : ObservableList<Junk> = tvJunk.items
+        var selectedJunk : ObservableList<Junk> = tvJunk.selectionModel.selectedItems
+
+        selectedJunk.forEach {
+             junk: Junk? -> statement.executeUpdate("DELETE FROM `junks` WHERE `id` = ${junk?.sn}")
         }
-        return true
+        refresh()
     }
 
+    //Monitor the table to know when a selection has been made
+    @FXML
+    private fun observeSelection(){
+        var selectedJunk: ObservableList<Junk>? = tvJunk.selectionModel.selectedItems
+        selectedJunk?.addListener(InvalidationListener {
+                selectedJunk?.forEach({ junk: Junk? ->
+                    changeField(junk!!)
+                })
+            })
+    }
+
+    private fun changeField(junk : Junk){
+        junkId = junk.sn
+        junkNameField.text =  junk.name
+        junkAmountField.text= junk.amount.toString()
+        junkPriceField.text = junk.price.toString()
+        junkCategoryField.value = junk.category
+        junkCustomerField.text = junk.customer
+        junkLabel.text = "Update Junk"
+        junkAddButton.text = "update"
+        junkAddButton.setOnAction { updateJunk() }
+        junkAddButton.maxWidth = 55.0
+    }
+
+    //After refresh set state of View to default
+    private fun defaultState(){
+        junkLabel.text = "New Junk"
+        junkAddButton.text = "save"
+        clearFields()
+    }
+
+    //update the junk
+
+    private fun updateJunk() {
+        val statement = connectDB().createStatement()
+        try {
+            if(junkNameField.text != null && junkAmountField.text != null && junkPriceField.text != null && junkCategoryField.value != null && junkCustomerField.text != null) {
+                val resultSet = statement.executeUpdate("UPDATE `junks`" + " SET " + "`name` = '${junkNameField.text}',`amount` = ${junkAmountField.text.toInt()} ,`price`= ${junkPriceField.text.toInt()},`category_id` = '${junkCategoryField.value}',`customer` = '${junkCustomerField.text}',`date` = 'december'" +  "WHERE id = '${junkId}'")
+                refresh()
+                textValidate.style = "-fx-text-fill : green"
+                textValidate.text = "Junk updated successfully"
+            }else{
+                textValidate.style = "-fx-text-fill : red"
+                textValidate.text = "Please fill all details"
+            }
+        }catch (sqlException : SQLException){
+            sqlException.printStackTrace()
+        }
+
+    }
 }
