@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Inventory.Controller.InventoryController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Inventory.Controller.InventoryController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -25,7 +25,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Inventory">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem fx:id="stat" mnemonicParsing="false" onAction="#openStat" text="Statistics" />
               </items>
             </Menu>
         </menus>

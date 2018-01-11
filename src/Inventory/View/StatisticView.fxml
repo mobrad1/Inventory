@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="766.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Inventory.Controller.StatisticController">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Inventory">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openTable" text="Table" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <PieChart fx:id="junkStat" prefHeight="398.0" prefWidth="450.0" title="Junk Statistics" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <TableView fx:id="totalJunk" prefHeight="398.0" prefWidth="229.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="category" prefWidth="89.0" text="Category" />
+          <TableColumn fx:id="kilo" prefWidth="75.0" text="Kilo" />
+            <TableColumn fx:id="price" prefWidth="64.0" text="Price" />
+        </columns>
+      </TableView>
+   </right>
+</BorderPane>

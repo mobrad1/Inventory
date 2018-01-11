@@ -13,13 +13,16 @@ import javafx.fxml.Initializable
 import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import Inventory.Model.Junk
+import javafx.event.ActionEvent
+import javafx.fxml.FXMLLoader.load
+import javafx.scene.layout.BorderPane
 import java.net.URL
 import java.sql.*
 import java.util.*
 
 
 
-class InventoryController : Initializable{
+open class InventoryController : Initializable{
 
 
     @FXML
@@ -53,6 +56,9 @@ class InventoryController : Initializable{
     @FXML
     private lateinit var textValidate : Label
 
+    @FXML
+    private  lateinit var rootPane: BorderPane
+
     @FXML lateinit var junkLabel : Label
     var junkId : Int = 0
 
@@ -84,11 +90,7 @@ class InventoryController : Initializable{
     }
     //Function to fetch data
     fun fetchData(): ObservableList<Junk> {
-
         var inventoryList :ObservableList<Junk> = observableArrayList()
-        inventoryList.addListener(InvalidationListener{
-          println("valid")
-        })
 
         //query the database
         val statement = connectDB().createStatement()
@@ -104,6 +106,7 @@ class InventoryController : Initializable{
         return inventoryList
     }
 
+    //Function that returns a connection to database
     @FXML
     private fun connectDB() : Connection {
         val user = "root"
@@ -178,12 +181,12 @@ class InventoryController : Initializable{
     private fun observeSelection(){
         var selectedJunk: ObservableList<Junk>? = tvJunk.selectionModel.selectedItems
         selectedJunk?.addListener(InvalidationListener {
-                selectedJunk?.forEach({ junk: Junk? ->
-                    changeField(junk!!)
-                })
+            selectedJunk.forEach({ junk: Junk? ->
+                changeField(junk!!)
+            })
             })
     }
-
+    //change the field on selection
     private fun changeField(junk : Junk){
         junkId = junk.sn
         junkNameField.text =  junk.name
@@ -222,5 +225,12 @@ class InventoryController : Initializable{
             sqlException.printStackTrace()
         }
 
+    }
+
+    // Open the statistical view
+    @FXML
+    private fun openStat(event: ActionEvent){
+        var pane : BorderPane = load(javaClass.getResource("../View/StatisticView.fxml"))
+        rootPane.children.setAll(pane)
     }
 }
